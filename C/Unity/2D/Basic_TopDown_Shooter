@@ -1,13 +1,13 @@
 
-
-
+ //The boundary forces the player to only be able to move within the set values. May not be needed depending on the game.
+ //Remember to have the class above the MonoBehaviour
 [System.Serializable] 
-public class Boundary    //The boundary forces the player to only be able to move within the set values. May not be needed depending on the game.
+public class Boundary 
 {
     public float xMin, xMax, yMin, yMax;
 }
 
-public class PlayerMovement : MonoBehaviour
+
 {
     public float speed;  //The speed the player will move at
 
