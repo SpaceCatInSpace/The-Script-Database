@@ -1,0 +1,24 @@
+
+{
+public GameObject bullet;  //The object to spawn
+public Transform shotSpawn; //Where to spawn it
+
+public float shotDelay; //These control how fast you can shoot
+private bool shotReady = true;
+
+
+  void Update()
+  {
+      if (Input.GetButton("Fire1") && shotReady) //Shoots the bullet then waits until shotspawn is 0 till it shoots again
+      {
+          Instantiate(bullet, shotSpawn.transform.position, bullet.transform.rotation);
+          shotReady = false;
+          Invoke("ResetshotReady", shotDelay);
+      }
+  }
+
+  void ResetshotReady()
+  {
+      shotReady = true;
+  }
+}
