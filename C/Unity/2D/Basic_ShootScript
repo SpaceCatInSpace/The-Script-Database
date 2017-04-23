@@ -1,3 +1,7 @@
+//This script can:
+//Shoot a bullet from a specific location
+//Add spread to said bullet
+//Has a shot delay
 
 {
 public GameObject bullet;  //The object to spawn
@@ -6,12 +10,19 @@ public Transform shotSpawn; //Where to spawn it
 public float shotDelay; //These control how fast you can shoot
 private bool shotReady = true;
 
+private int aim; //These are used to set spread on the bullet. This is probably inefficient.
+public int inaccuracy;
 
   void Update()
   {
       if (Input.GetButton("Fire1") && shotReady) //Shoots the bullet then waits until shotspawn is 0 till it shoots again
       {
+          
+          aim += Random.Range(inaccuracy, -inaccuracy);
+          bullet.transform.Rotate(0, aim, 0);
           Instantiate(bullet, shotSpawn.transform.position, bullet.transform.rotation);
+          
+          aim -= aim;
           shotReady = false;
           Invoke("ResetshotReady", shotDelay);
       }
