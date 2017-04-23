@@ -1,0 +1,14 @@
+   //This script can:
+   //Move an object forward and spin it if neccasary.
+   
+   {
+   public float speed;
+   public float rotationSpeed;
+   public GameObject sprite;
+    
+    void Update()
+    {
+      sprite.transform.Rotate(Vector3.forward * rotationSpeed); //Rotates the sprite
+       transform.position += transform.forward * speed * Time.deltaTime;
+    }
+}
