@@ -4,7 +4,7 @@
    {
    public float speed;
    public float rotationSpeed;
-   public GameObject sprite;
+   public GameObject sprite; //Set this to the actual sprite of the bullet
     
     void Update()
     {
