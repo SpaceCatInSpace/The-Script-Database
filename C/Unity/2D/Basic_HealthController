@@ -1,0 +1,58 @@
+// This script can:
+// Hurt the player
+// Heal the player
+// Update a health bar
+// Has invincibillity frames
+
+public float maxHealth;
+private float currentHealth;
+public Image healthBar; //Used to display and update a health bar if needed
+ 
+ //Used for invinicbillity frames. May not be needed depending on the game
+ private bool invincibleFrames = false;
+public float invincibleTime = 1;
+
+ void Start()
+    {
+        currentHealth = maxHealth;
+    }
+    
+    void Update()
+    {
+     if (invincibleFrames == true)
+        {
+            invincibleTime -= Time.deltaTime;
+            if (invincibleTime < 0)
+            {
+                invincibleFrames = false;
+                invincibleTime = 1;
+            }
+        }
+     }
+   
+    public void HurtPlayer(int damageToGet)
+    {
+        if (invincibleFrames == false) //Used to hurt the player and check if he is invincible or not
+        {
+            currentHealth -= damageToGet; //Hurts the player
+            healthBar.fillAmount = currentHealth / maxHealth; //Updates the players health bar
+            invincibleFrames = true; 
+        }
+     
+     
+      if(currentHealth <= 0)
+      {
+          //Game over either by destroying the player or calling a function whatever you want man
+      }
+    }
+
+    public void AddHealth(int giveHealth)
+    {
+        currentHealth += giveHealth;
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+            healthBar.fillAmount = currentHealth;
+        }
+    }
+}
