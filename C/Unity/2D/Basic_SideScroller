@@ -1,1 +1,67 @@
 
+bool facingRight = true; //facingRight is used to flip the player sprite when they change direction.
+bool isBlending = false;
+bool isGround = false;
+ 
+public float MaxWalkSpeed, MaxRunSpeed, JumpForce, MaxSpeed;
+public Transform groundCheck; //Set this to a gameobject at the players feet. Used to detect the ground
+ 
+Vector3 PlayerVelocity;
+
+void Start()
+{
+   PlayerVelocity = Vector2.zero;
+}
+
+void Update()
+{
+     isGround = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground")); //Checks the ground. Make sure the ground is named Ground in the layers
+
+     float HorCa = Input.GetAxis("Horizontal");
+
+      if ((Input.GetKey(KeyCode.LeftShift) && (isGround)))
+      {
+          MAX_SPEED = MAX_RUN_SPEED;
+      }
+      else
+      {
+          MAX_SPEED = MAX_WALK_SPEED;
+      }
+
+      PlayerVelocity.x = Input.GetAxis("Horizontal") * MAX_SPEED * Time.deltaTime;
+
+      if (HorCa > 0 && !facingRight)
+      {
+          Flip();
+      }
+      else if (HorCa < 0 && facingRight)
+      {
+          Flip();
+      }
+
+       if (timeBetweenJumps <= 0f && Input.GetKey(KeyCode.W) && (isGround))
+        {
+            PlayerVelocity.y = JUMP_HEIGHT;
+            isGround = false;
+        }
+        else
+        {
+            PlayerVelocity.y = GetComponent<Rigidbody2D>().velocity.y;
+        }
+    }
+    
+    void FixedUpdate()
+    {
+        GetComponent<Rigidbody2D>().velocity = PlayerVelocity;
+    }
+
+    void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+    }
+}
+
+//Script was made by Jon not me yo
