@@ -1,0 +1,30 @@
+
+
+
+[System.Serializable] 
+public class Boundary    //The boundary forces the player to only be able to move within the set values. May not be needed depending on the game.
+{
+    public float xMin, xMax, yMin, yMax;
+}
+
+public class PlayerMovement : MonoBehaviour
+{
+    public float speed;  //The speed the player will move at
+
+    private Rigidbody rb;
+    public Boundary boundary;
+
+    //Controlls the player movement
+    void FixedUpdate()
+    {
+        transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0.0f) * speed * Time.deltaTime;
+        rb = GetComponent<Rigidbody>();
+        rb.position = new Vector3
+        (
+              //This will not be needed if you dont use the boundary class
+             Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),
+            Mathf.Clamp(rb.position.y, boundary.yMin, boundary.yMax),
+            0.0f
+            );
+    }
+}
