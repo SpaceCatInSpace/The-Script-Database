@@ -1,0 +1,61 @@
+using UnityEngine;
+using System.Collections;
+
+public class ScreenShake : MonoBehaviour {
+
+    [Header("Shake vars")]
+    public Transform cameraPosition;
+    Vector3 OriginalPosition;
+    public float shakeTime;
+    public float shakeAmount;
+    public float decreaseTime;
+    public bool isEnabled = false;
+    public bool ConstantShake;
+
+    [Header("Zoom Vars")]
+    public float cameraZoom;
+    private float totalZoom; //Used to reset the zoom after launch
+
+
+    void Start()
+    {
+        if (cameraPosition == null)
+          {
+            cameraPosition = GetComponent(typeof(Transform)) as Transform;
+          }
+        OriginalPosition = cameraPosition.localPosition;
+    }
+
+
+    void Update()
+    {
+        if (isEnabled)
+        {
+            Debug.Log("Called");
+            cameraPosition.localPosition = OriginalPosition + Random.insideUnitSphere * shakeAmount;
+            shakeTime -= Time.deltaTime * decreaseTime;
+            if(shakeTime <= 0)
+            {
+                isEnabled = false;
+                shakeTime = 0.1f;
+            }
+
+        }
+    }
+
+          public void CameraZoom()
+         {
+          Debug.Log("Zoom");
+          Camera.main.orthographicSize -= cameraZoom;
+          totalZoom += cameraZoom;
+         }
+
+
+         public void reset()
+         {
+        //Call from blast off
+        Debug.Log("rESET");
+           cameraPosition.localPosition = OriginalPosition;
+           Camera.main.orthographicSize += totalZoom;
+         }
+}
