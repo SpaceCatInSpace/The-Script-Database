@@ -1,0 +1,83 @@
+using UnityEngine;
+using UnityEngine.EventSystems;
+using System.Collections;
+
+public class Blast_Off : MonoBehaviour
+{
+    //  private ScreenShake screenshake;
+    public GameObject screenshake;
+
+    //Launch Vars
+    private bool Launching = false;
+    public float maxBlastOffVelocity; //The fastest we can get too
+    public float acceleration; //How fast until we reach top speed
+    private float currentBlastOffVelocityGained; //How much speed we gained
+    private float velocityToLaunch; //Until we reach blast off velocity gained
+    public float velocityToAdd;
+    private float launchTime = 5f;
+    public float blastOffLength; //How long we accelerate for
+    private bool HasLaunched = false;
+
+    private Rigidbody2D rb;
+
+
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        Invoke("isLaunching", launchTime);
+    }
+
+    public void FixedUpdate()
+    {
+        if(Launching && !HasLaunched)
+        {
+            Debug.Log("Going up");
+
+
+            rb.AddForce(transform.up * velocityToLaunch);
+            velocityToLaunch += acceleration;
+            //transform.position += transform.up * velocityToLaunch;
+
+
+
+            blastOffLength -= Time.deltaTime;
+
+            if(blastOffLength <= 0)
+            {
+                HasLaunched = true;
+                gameObject.GetComponent<PlayerController>().enabled = true;
+                
+            }
+        }
+
+        
+        if (!Launching)
+        {
+            if (Input.touchCount > 0)
+            {
+                if (Input.GetTouch(0).phase == TouchPhase.Began)
+                {
+                    currentBlastOffVelocityGained += velocityToAdd;
+                    screenshake.GetComponent<ScreenShake>().isEnabled = true;
+                    screenshake.GetComponent<ScreenShake>().CameraZoom();
+                }
+            }
+        }
+    }
+
+
+    void isLaunching()
+    {
+        screenshake.GetComponent<ScreenShake>().reset();
+        Launching = true;
+        if(currentBlastOffVelocityGained >= maxBlastOffVelocity)
+        {
+            currentBlastOffVelocityGained = maxBlastOffVelocity;
+        }
+    }
+}
+
+       
+
+
