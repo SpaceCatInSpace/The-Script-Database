@@ -1,0 +1,20 @@
+using UnityEngine;
+using System.Collections;
+
+public class PlayerController : MonoBehaviour {
+
+    public float maxFuel;
+    private float currentFuel;
+
+
+
+	// Use this for initialization
+	void Start () {
+        gameObject.GetComponent<Blast_Off>().enabled = false;
+	}
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
+}
